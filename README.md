@@ -1,4 +1,4 @@
-Deggos: A Curated Engineering Knowledge Base
+
 Deggos is a custom-built video-sharing platform designed to centralize and organize high-quality educational content. By fetching and aggregating technical videos from YouTube and other online sources, the platform serves as a dedicated resource for mastering complex engineering concepts.
 
 Key Features:
