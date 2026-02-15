@@ -15,7 +15,7 @@ const printing = (ar) => {
     
     const btn = document.createElement("button");
     btn.classList.add(
-      "btn",
+      "first-sec-btn",
       "btn-sm",
       "w-fit",
       "bg-base-200",
@@ -29,14 +29,28 @@ const printing = (ar) => {
     btn.innerText = element.category;
    btn.addEventListener('click',()=>{
     catogoryvedio(element.category_id)
+    holud(btn);
    })
   
     hednav.appendChild(btn);
   });
 };
+const holud=(btn)=>{
+  const all=document.querySelectorAll('.first-sec-btn')
+  
+  all.forEach((item)=>{
+    item.classList.remove("bg-yellow-400"); 
+    item.classList.add("bg-base-200");
+  })
+  btn.classList.remove("bg-base-200");
+  btn.classList.add("bg-yellow-400")
+}
 const catogoryvedio=(id)=>{
   if(id==1000){
     vediobox();
+  }
+  else if (id==1005){
+    faka();
   }
   else{
   const url=`https://openapi.programming-hero.com/api/phero-tube/category/${id}`
@@ -57,9 +71,28 @@ const vediobox=async()=>{
     card(data.videos);
     
 }
+const faka=()=>{
+  const container=document.getElementById('vediocard');
+container.innerHTML="";
+container.classList.remove('grid')
+const div=document.createElement('div');
+div.classList.add("flex", 
+    "flex-col", 
+    "justify-center", 
+    "items-center", 
+    "min-h-[300px]", 
+    "w-full");
+div.innerHTML=`
+<div class="flex flex-col gap-5 items-center justify-center ">
+        <img  src="./essensials/Icon.png" alt="">
+        <h1 class="text-xl font-bold">Oops!! Sorry ,There is no content here</h1>
+       </div>`
+container.appendChild(div);
+}
 const card=(bap)=>{
 const container=document.getElementById('vediocard');
 container.innerHTML="";
+container.classList.add("grid");
 bap.forEach(element=>{
     const card=document.createElement('div');
     card.innerHTML=`
