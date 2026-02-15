@@ -23,7 +23,7 @@ const printing = (ar) => {
       "border-base-300",
       "rounded-xl",
       "font-bold",
-      "px-2","hover:bg-yellow-400",
+      "px-2","hover:bg-red-500",
     );
 
     btn.innerText = element.category;
@@ -39,11 +39,11 @@ const holud=(btn)=>{
   const all=document.querySelectorAll('.first-sec-btn')
   
   all.forEach((item)=>{
-    item.classList.remove("bg-yellow-400"); 
+    item.classList.remove("bg-red-500"); 
     item.classList.add("bg-base-200");
   })
   btn.classList.remove("bg-base-200");
-  btn.classList.add("bg-yellow-400")
+  btn.classList.add("bg-red-500")
 }
 const catogoryvedio=(id)=>{
   if(id==1000){
@@ -68,7 +68,9 @@ starup();
 const vediobox=async()=>{
     const res=await fetch('https://openapi.programming-hero.com/api/phero-tube/videos');
     const data= await res.json();
+    
     card(data.videos);
+    
     
 }
 const faka=()=>{
@@ -94,20 +96,17 @@ const container=document.getElementById('vediocard');
 container.innerHTML="";
 container.classList.add("grid");
 bap.forEach(element=>{
-    const card=document.createElement('div');
-    card.innerHTML=`
+    const carddiv=document.createElement('div');
+    
+    carddiv.innerHTML=`
      <div class="bg-base-100 w-full rounded-xl overflow-hidden h-full flex flex-col shadow-sm">
-          <figure class="relative h-[200px]">
+          <figure class=" h-[150px]">
             <img
               src="${element.thumbnail}"
               alt="Shoes"
               class="rounded-xl w-full h-[150px] object-cover"
             />
-            <h2
-              class="absolute text-white bg-black rounded px-1 bottom-2 right-2"
-            >
-              3hrs 56 min ago
-            </h2>
+            
           </figure>
           <div class="pt-4 px-1 flex gap-4  items-center">
             <div class="avatar">
@@ -135,11 +134,26 @@ bap.forEach(element=>{
               <h2 class="text-gray-600">${element.others.views}</h2>
             </div>
           </div>
+           <div class="flex items-center justify-center bg-red-500 text-white font-bold">
+        <button  class="about-info btn btn-soft btn-warning">About Info</button>
+       </div>
         </div>
+    
+    
+
     `
-   
-    container.appendChild(card)
-})
+    const buttons=carddiv.querySelector('.about-info');
+    buttons.addEventListener('click',()=>{
+      document.getElementById('modal-title').innerText = element.title;
+       document.getElementById('modal-description').innerText = element.description;
+       
+       
+       document.getElementById('my_modal').showModal();
+
+    })
+    container.appendChild(carddiv)
+  })
+  
 
 }
 vediobox();
