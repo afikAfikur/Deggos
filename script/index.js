@@ -3,12 +3,16 @@ const starup = async () => {
     "https://openapi.programming-hero.com/api/videos/categories",
   );
   const data = await res.json();
-  const ar = data.data.map((element) => element.category);
-  printing(ar);
+   
+  printing(data.data);
 };
+
 const printing = (ar) => {
+
+  
   const hednav = document.getElementById("firs-sec-container");
   ar.forEach((element) => {
+    
     const btn = document.createElement("button");
     btn.classList.add(
       "btn",
@@ -22,11 +26,30 @@ const printing = (ar) => {
       "px-2","hover:bg-yellow-400",
     );
 
-    btn.innerText = element;
+    btn.innerText = element.category;
+   btn.addEventListener('click',()=>{
+    catogoryvedio(element.category_id)
+   })
+  
     hednav.appendChild(btn);
   });
 };
-
+const catogoryvedio=(id)=>{
+  if(id==1000){
+    vediobox();
+  }
+  else{
+  const url=`https://openapi.programming-hero.com/api/phero-tube/category/${id}`
+  
+  fetchcat(url);
+  }
+}
+const fetchcat=async(url)=>{
+  const res=await fetch(url);
+  const data=await res.json();
+  
+  card(data['category']);
+}
 starup();
 const vediobox=async()=>{
     const res=await fetch('https://openapi.programming-hero.com/api/phero-tube/videos');
@@ -36,11 +59,12 @@ const vediobox=async()=>{
 }
 const card=(bap)=>{
 const container=document.getElementById('vediocard');
+container.innerHTML="";
 bap.forEach(element=>{
     const card=document.createElement('div');
     card.innerHTML=`
-     <div class="bg-base-100 w-[384px] shadow-sm">
-          <figure class="relative pt-10">
+     <div class="bg-base-100 w-full rounded-xl overflow-hidden h-full flex flex-col shadow-sm">
+          <figure class="relative h-[200px]">
             <img
               src="${element.thumbnail}"
               alt="Shoes"
