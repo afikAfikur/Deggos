@@ -3,16 +3,13 @@ const starup = async () => {
     "https://openapi.programming-hero.com/api/videos/categories",
   );
   const data = await res.json();
-   
+
   printing(data.data);
 };
 
 const printing = (ar) => {
-
-  
   const hednav = document.getElementById("firs-sec-container");
   ar.forEach((element) => {
-    
     const btn = document.createElement("button");
     btn.classList.add(
       "first-sec-btn",
@@ -23,90 +20,98 @@ const printing = (ar) => {
       "border-base-300",
       "rounded-xl",
       "font-bold",
-      "px-2","hover:bg-red-500",
+      "px-3",
+      "hover:bg-red-500",
     );
 
     btn.innerText = element.category;
-   btn.addEventListener('click',()=>{
-    catogoryvedio(element.category_id)
-    holud(btn);
-   })
-  
+    btn.addEventListener("click", () => {
+      catogoryvedio(element.category_id);
+      holud(btn);
+    });
+
     hednav.appendChild(btn);
   });
 };
-const holud=(btn)=>{
-  const all=document.querySelectorAll('.first-sec-btn')
-  
-  all.forEach((item)=>{
-    item.classList.remove("bg-red-500"); 
+const holud = (btn) => {
+  const all = document.querySelectorAll(".first-sec-btn");
+
+  all.forEach((item) => {
+    item.classList.remove("bg-red-500");
     item.classList.add("bg-base-200");
-  })
+  });
   btn.classList.remove("bg-base-200");
-  btn.classList.add("bg-red-500")
-}
-const catogoryvedio=(id)=>{
-  if(id==1000){
+  btn.classList.add("bg-red-500");
+};
+const catogoryvedio = (id) => {
+  if (id == 1000) {
     vediobox();
-  }
-  else if (id==1005){
+  } else if (id == 1005) {
     faka();
+  } else {
+    const url = `https://openapi.programming-hero.com/api/phero-tube/category/${id}`;
+
+    fetchcat(url);
   }
-  else{
-  const url=`https://openapi.programming-hero.com/api/phero-tube/category/${id}`
-  
-  fetchcat(url);
-  }
-}
-const fetchcat=async(url)=>{
-  const res=await fetch(url);
-  const data=await res.json();
-  
-  card(data['category']);
-}
+};
+const fetchcat = async (url) => {
+  const res = await fetch(url);
+  const data = await res.json();
+
+  card(data["category"]);
+};
 starup();
-const vediobox=async()=>{
-    const res=await fetch('https://openapi.programming-hero.com/api/phero-tube/videos');
-    const data= await res.json();
-    
-    card(data.videos);
-    
-    
-}
-const faka=()=>{
-  const container=document.getElementById('vediocard');
-container.innerHTML="";
-container.classList.remove('grid')
-const div=document.createElement('div');
-div.classList.add("flex", 
-    "flex-col", 
-    "justify-center", 
-    "items-center", 
-    "min-h-[300px]", 
-    "w-full");
-div.innerHTML=`
+const vediobox = async () => {
+  const res = await fetch(
+    "https://openapi.programming-hero.com/api/phero-tube/videos",
+  );
+  const data = await res.json();
+
+  card(data.videos);
+};
+const faka = () => {
+  const container = document.getElementById("vediocard");
+  container.innerHTML = "";
+  container.classList.remove("grid");
+  const div = document.createElement("div");
+  div.classList.add(
+    "flex",
+    "flex-col",
+    "justify-center",
+    "items-center",
+    "min-h-[300px]",
+    "w-full",
+  );
+  div.innerHTML = `
 <div class="flex flex-col gap-5 items-center justify-center ">
         <img  src="./essensials/Icon.png" alt="">
         <h1 class="text-xl font-bold">Oops!! Sorry ,There is no content here</h1>
-       </div>`
-container.appendChild(div);
-}
-const card=(bap)=>{
-const container=document.getElementById('vediocard');
-container.innerHTML="";
-container.classList.add("grid");
-bap.forEach(element=>{
-    const carddiv=document.createElement('div');
+       </div>`;
+  container.appendChild(div);
+};
+const card = (bap) => {
+  const container = document.getElementById("vediocard");
+  container.innerHTML = "";
+  container.classList.add("grid");
+  bap.forEach((element) => {
     
-    carddiv.innerHTML=`
+    const carddiv = document.createElement("div");
+    const veri = element.authors["0"].verified;
+
+    carddiv.innerHTML = `
      <div class="bg-base-100 w-full rounded-xl overflow-hidden h-full flex flex-col shadow-sm">
-          <figure class=" h-[150px]">
+           <figure class="relative pt-10">
             <img
               src="${element.thumbnail}"
               alt="Shoes"
               class="rounded-xl w-full h-[150px] object-cover"
             />
-            
+            <h2
+              class="absolute text-white bg-black rounded px-1 bottom-2 right-2"
+            >
+              ${hoursec(element.others
+.posted_date)}
+            </h2>
           </figure>
           <div class="pt-4 px-1 flex gap-4  items-center">
             <div class="avatar">
@@ -114,7 +119,7 @@ bap.forEach(element=>{
                 class="ring-primary ring-offset-base-100 w-6 rounded-full ring-2 ring-offset-2 mb-8"
               >
                 <img
-                  src="${element.authors['0'].profile_picture}"
+                  src="${element.authors["0"].profile_picture}"
                 />
               </div>
             </div>
@@ -123,38 +128,49 @@ bap.forEach(element=>{
                 ${element.title}
               </h2>
               <div class="flex items-center gap-2">
-                <h2 class="text-gray-600">${element.authors['0'].profile_name
-}</h2>
-                <img
-                  class="w-[24px]"
-                  src="./essensials/icons8-verified-48.png"
-                  alt=""
-                />
+                <h2 class="text-gray-600">${
+                  element.authors["0"].profile_name
+                }</h2>
+              ${
+                veri
+                  ? `
+    <img 
+      class="w-[24px] verified"
+      src="./essensials/icons8-verified-48.png"
+      alt="verified icon"
+    />`
+                  : ""
+              }
               </div>
               <h2 class="text-gray-600">${element.others.views}</h2>
             </div>
           </div>
-           <div class="flex items-center justify-center bg-red-500 text-white font-bold">
-        <button  class="about-info btn btn-soft btn-warning">About Info</button>
+           <div class="mt-2 flex items-center justify-center bg-red-500 text-white font-bold">
+        <button  class="about-info btn btn-soft btn-warning ">About Info</button>
        </div>
         </div>
     
     
 
-    `
-    const buttons=carddiv.querySelector('.about-info');
-    buttons.addEventListener('click',()=>{
-      document.getElementById('modal-title').innerText = element.title;
-       document.getElementById('modal-description').innerText = element.description;
-       
-       
-       document.getElementById('my_modal').showModal();
+    `;
 
-    })
-    container.appendChild(carddiv)
-  })
-  
+    const buttons = carddiv.querySelector(".about-info");
+    buttons.addEventListener("click", () => {
+      document.getElementById("modal-title").innerText = element.title;
+      document.getElementById("modal-description").innerText =
+        element.description;
+
+      document.getElementById("my_modal").showModal();
+    });
+    container.appendChild(carddiv);
+  });
+};
+const hoursec=(value)=>{
+const hour=Math.floor(value/3600);
+const remainingsec=value%3600;
+const minute=Math.floor(remainingsec/60);
+const sec=remainingsec%60;
+return `${hour}h ${minute}m ${sec}`
 
 }
 vediobox();
-
