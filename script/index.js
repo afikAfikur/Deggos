@@ -61,10 +61,11 @@ const fetchcat = async (url) => {
   card(data["category"]);
 };
 starup();
-const vediobox = async () => {
+const vediobox = async (value="") => {
   const res = await fetch(
-    "https://openapi.programming-hero.com/api/phero-tube/videos",
-  );
+    `https://openapi.programming-hero.com/api/phero-tube/videos?title=${value}`, 
+  ); 
+  // vedio loading here 
   const data = await res.json();
 
   card(data.videos);
@@ -174,3 +175,11 @@ return `${hour}h ${minute}m ${sec}`
 
 }
 vediobox();
+const loadbyTitl=()=>{
+const search=document.getElementById('searchbar');
+search.addEventListener('keyup',(elment)=>{
+const value=elment.target.value;
+vediobox(value);
+})
+}
+loadbyTitl();
